@@ -12,11 +12,11 @@ class TwoDShape:
 #get point coordinates from line by mask
     def get_coordinates(self, pointMask):
         try:
-            coordsPoint = re.search(pointMask + ' ([\d]+) ([\d]+)( |$)', self.line)
+            coordsPoint = re.search(pointMask + ' (-?\d+) (-?\d+)( |$)', self.line)
             if coordsPoint:
                 x = int(coordsPoint.group(1))
                 y = int(coordsPoint.group(2))
-                print(x, y, "Ok")
+                #print(x, y, "Ok")
                 return (x, y)
         except:
             raise Exception("there is no coords values")
@@ -32,8 +32,7 @@ class TwoDShape:
 class Square(TwoDShape):
     def calc_perimeter_and_area(self):
         try:
-            #sideSearch = re.search('Side (.+?)', line)
-            sideSearch = re.search('Side ([\d]+$)', self.line)
+            sideSearch = re.search('Side (\d+$)', self.line)
             if sideSearch:
                 side = int(sideSearch.group(1))
                 perimeter = 4 * side
@@ -76,7 +75,7 @@ class Rectangle(TwoDShape):
 class Circle(TwoDShape):
     def calc_perimeter_and_area(self):
         try:
-            radiusSearch = re.search('Radius ([\d]+$)', self.line)
+            radiusSearch = re.search('Radius (\d+$)', self.line)
             if radiusSearch:
                 radius = int(radiusSearch.group(1))
             
