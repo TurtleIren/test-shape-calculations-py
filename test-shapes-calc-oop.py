@@ -5,6 +5,7 @@ import math
 class TwoDShape:
     def __init__(self, line):
         self.line = line
+        self.shape = ''
 
     def calc_perimeter_and_area(self):
         return "Unknown shape"
@@ -25,11 +26,19 @@ class TwoDShape:
     def print_output(self, shape, perimeter, area):
         print(shape, 'Perimeter', perimeter, 'Area', area)
         return
+
+    def check_shape(self):
+        is_correct = re.search(r"^" + self.shape + r"\b", self.line)
+        return is_correct
   
 #calculate P & A for Square
 #Example string:
 #Square TopRight 1 1 Side 1
 class Square(TwoDShape):
+    def __init__(self, line):
+        self.line = line
+        self.shape = 'Square'
+    
     def calc_perimeter_and_area(self):
         try:
             sideSearch = re.search('Side (\d+$)', self.line)
@@ -49,6 +58,10 @@ class Square(TwoDShape):
 #Example string:
 #Rectangle TopRight 2 2 BottomLeft 1 1
 class Rectangle(TwoDShape):
+    def __init__(self, line):
+        self.line = line
+        self.shape = 'Rectangle'
+    
     def calc_perimeter_and_area(self):
         try:
             x1, y1 = self.get_coordinates('TopRight')
@@ -73,7 +86,12 @@ class Rectangle(TwoDShape):
 #Example string:
 #Circle Center 1 1 Radius 2
 class Circle(TwoDShape):
+    def __init__(self, line):
+        self.line = line
+        self.shape = 'Circle'
+    
     def calc_perimeter_and_area(self):
+            
         try:
             radiusSearch = re.search('Radius (\d+$)', self.line)
             if radiusSearch:
@@ -86,6 +104,7 @@ class Circle(TwoDShape):
                 return ""
             else:
                 return "Error: there is no correct Radius value"
+                
         except:
             return "Error: there is no Radius value"
 
@@ -102,6 +121,9 @@ for line in sys.stdin:
     else:
         #print('Unknown shape')
         shape = TwoDShape(line)
-        
-    print(shape.calc_perimeter_and_area())
+
+    if shape.check_shape():    
+        print(shape.calc_perimeter_and_area())
+    else:
+        print("Error: bad string format for " + shape.shape)
 
